@@ -1,22 +1,27 @@
-variable "region" {
-  description = "Azure region"
+variable "location" {
+  description = "The Azure region where the Storage Account will be created"
+  type        = string
 }
 
 variable "resource_group_name" {
-  description = "Name of the resource group"
+  description = "The name of the resource group"
+  type        = string
 }
 
 variable "storage_config" {
-  description = "Map containing configurable values for the storage account"
+  description = "Configuration for the Storage Account"
   type = object({
     prefix           = string
     account_tier     = string
     replication_type = string
-    tags = map(string)
+    tags             = map(string)
   })
 }
 
 variable "file_share_config" {
-  description = "Map for file share configuration"
-  type        = map(any)
+  description = "Configuration for the File Share"
+  type = object({
+    name  = string
+    quota = number
+  })
 }

@@ -23,11 +23,11 @@ subnets = {
 }
 
 # Load Balancer
-lb_name            = "lb-we-dev-platform-01"
-backend_pool_name  = "backendpool-we-dev"
-frontend_port      = 80
-backend_port       = 80
-probe_path         = "/health"
+lb_name           = "lb-we-dev-platform-01"
+backend_pool_name = "backendpool-we-dev"
+frontend_port     = 80
+backend_port      = 80
+probe_path        = "/health"
 
 # Storage
 storage_prefix   = "stdev"
@@ -40,11 +40,10 @@ file_share_config = {
 }
 
 # Compute
-vm_name         = "vmss-we-dev-platform-01"
-vm_size         = "Standard_B2ms"
-admin_username  = "azureuser"
-admin_password  = "ChangeM3Plz@123" # Replace this in a secure store
-
+vm_name          = "vmss-we-dev-platform-01"
+vm_size          = "Standard_B2ms"
+admin_username   = "azureuser"
+admin_password   = "ChangeM3Plz@123" # (IMPORTANT: secure this!)
 vm_image_publisher = "Canonical"
 vm_image_offer     = "UbuntuServer"
 vm_image_sku       = "18.04-LTS"

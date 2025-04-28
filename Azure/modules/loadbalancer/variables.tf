@@ -1,11 +1,11 @@
-variable "lb_config" {
-  description = "Load Balancer configuration"
+variable "lb_settings" {
+  description = "Configuration block for Load Balancer settings"
   type = object({
-    location           = any
-    rgname             = any
-    lbname             = string
+    location           = string
+    resource_group     = string
+    load_balancer_name = string
     tags               = map(string)
-    backend_pool_name  = string
+    backend_pool_name = string
     frontend_port      = number
     backend_port       = number
     probe_path         = string

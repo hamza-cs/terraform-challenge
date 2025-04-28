@@ -1,28 +1,42 @@
+# General
 variable "region" {
-  description = "Azure region"
+  description = "The Azure region where resources will be deployed"
   type        = string
 }
 
 variable "rg_name" {
-  description = "Resource Group name"
+  description = "The name of the Resource Group"
+  type        = string
+}
+
+variable "subscription_id" {
+  description = "Azure Subscription ID"
+  type        = string
+}
+
+variable "tenant_id" {
+  description = "Azure Tenant ID"
   type        = string
 }
 
 variable "tags" {
-  description = "Tags to apply to resources"
+  description = "Common tags for all resources"
   type        = map(string)
 }
 
 # Network
 variable "vnet_name" {
-  type = string
+  description = "Virtual Network name"
+  type        = string
 }
 
 variable "address_space" {
-  type = list(string)
+  description = "Address space for the VNet"
+  type        = list(string)
 }
 
 variable "subnets" {
+  description = "Subnets configuration"
   type = map(object({
     address_prefixes = list(string)
   }))
@@ -30,68 +44,86 @@ variable "subnets" {
 
 # Load Balancer
 variable "lb_name" {
-  type = string
+  description = "Load Balancer name"
+  type        = string
 }
 
 variable "backend_pool_name" {
-  type = string
+  description = "Backend Pool name for the Load Balancer"
+  type        = string
 }
 
 variable "frontend_port" {
-  type = number
+  description = "Frontend port for the Load Balancer"
+  type        = number
 }
 
 variable "backend_port" {
-  type = number
+  description = "Backend port for the Load Balancer"
+  type        = number
 }
 
 variable "probe_path" {
-  type = string
+  description = "Probe path for the health check"
+  type        = string
 }
 
 # Storage
 variable "storage_prefix" {
-  type = string
+  description = "Prefix for the Storage Account name"
+  type        = string
 }
 
 variable "account_tier" {
-  type = string
+  description = "Storage Account tier"
+  type        = string
 }
 
 variable "replication_type" {
-  type = string
+  description = "Storage replication type"
+  type        = string
 }
 
 variable "file_share_config" {
-  type = map(any)
+  description = "File share configuration"
+  type = object({
+    name  = string
+    quota = number
+  })
 }
 
 # Compute
 variable "vm_name" {
-  type = string
+  description = "Name for the VM Scale Set"
+  type        = string
 }
 
 variable "vm_size" {
-  type = string
+  description = "Size of the VM instances"
+  type        = string
 }
 
 variable "admin_username" {
-  type = string
+  description = "Admin username for VMs"
+  type        = string
 }
 
 variable "admin_password" {
-  type      = string
-  sensitive = true
+  description = "Admin password for VMs"
+  type        = string
 }
 
 variable "vm_image_publisher" {
-  type = string
+  description = "Publisher of the VM image"
+  type        = string
 }
 
 variable "vm_image_offer" {
-  type = string
+  description = "Offer of the VM image"
+  type        = string
 }
 
 variable "vm_image_sku" {
-  type = string
+  description = "SKU of the VM image"
+  type        = string
 }

@@ -1,5 +1,5 @@
-variable "config" {
-  description = "VM configuration block"
+variable "vm_config" {
+  description = "Configuration block for the Virtual Machine Scale Set"
   type = object({
     vmname        = string
     location      = any
@@ -18,7 +18,7 @@ variable "config" {
 }
 
 variable "mount_config" {
-  description = "Information for mounting Azure file share"
+  description = "Configuration for mounting Azure file share"
   type = object({
     mount_path      = string
     file_share_name = string
@@ -28,5 +28,6 @@ variable "mount_config" {
 }
 
 variable "backend_pool_id" {
-  
+  description = "ID of the load balancer backend pool"
+  type        = string
 }

@@ -1,11 +1,11 @@
-resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
-  name                = var.config.vmname
-  location            = var.config.location
-  resource_group_name = var.config.rgname
-  sku                 = var.config.vmsize
+resource "azurerm_linux_virtual_machine_scale_set" "linux_vmss" {
+  name                = var.vm_config.vmname
+  location            = var.vm_config.location
+  resource_group_name = var.vm_config.rgname
+  sku                 = var.vm_config.vmsize
   instances           = 2
-  admin_username      = var.config.adminuser
-  admin_password      = var.config.adminpassword
+  admin_username      = var.vm_config.adminuser
+  admin_password      = var.vm_config.adminpassword
   disable_password_authentication = false
   custom_data = base64encode(templatefile("${path.module}/mount-share.sh.tftpl", {
     mount_path      = var.mount_config.mount_path
@@ -15,9 +15,9 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   }))
 
   source_image_reference {
-    publisher = var.config.image.publisher
-    offer     = var.config.image.offer
-    sku       = var.config.image.sku
+    publisher = var.vm_config.image.publisher
+    offer     = var.vm_config.image.offer
+    sku       = var.vm_config.image.sku
     version   = "latest"
   }
 
@@ -32,20 +32,20 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
 
     ip_configuration {
       name      = "vmss-ip"
-      subnet_id = var.config.subnet_id
+      subnet_id = var.vm_config.subnet_id
       primary   = true
       load_balancer_backend_address_pool_ids = [var.backend_pool_id]
     }
   }
 
-  tags = var.config.tags
+  tags = var.vm_config.tags
 }
 
-resource "azurerm_monitor_autoscale_setting" "vmss_autoscale" {
+resource "azurerm_monitor_autoscale_setting" "vmss_autoscaling" {
   name                = "autoscale-vmss"
-  location            = var.config.location
-  resource_group_name = var.config.rgname
-  target_resource_id  = azurerm_linux_virtual_machine_scale_set.vmss.id
+  location            = var.vm_config.location
+  resource_group_name = var.vm_config.rgname
+  target_resource_id  = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
 
   profile {
     name = "default"
@@ -60,7 +60,7 @@ resource "azurerm_monitor_autoscale_setting" "vmss_autoscale" {
       metric_trigger {
         metric_name        = "Percentage CPU"
         metric_namespace   = "Microsoft.Compute/virtualMachineScaleSets"
-        metric_resource_id = azurerm_linux_virtual_machine_scale_set.vmss.id
+        metric_resource_id = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
@@ -81,7 +81,7 @@ resource "azurerm_monitor_autoscale_setting" "vmss_autoscale" {
       metric_trigger {
         metric_name        = "Percentage CPU"
         metric_namespace   = "Microsoft.Compute/virtualMachineScaleSets"
-        metric_resource_id = azurerm_linux_virtual_machine_scale_set.vmss.id
+        metric_resource_id = azurerm_linux_virtual_machine_scale_set.linux_vmss.id
         time_grain         = "PT1M"
         statistic          = "Average"
         time_window        = "PT5M"
